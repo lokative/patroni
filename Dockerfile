@@ -15,6 +15,7 @@ ARG LC_ALL
 ARG LANG
 
 ENV ETCDVERSION=3.3.13 CONFDVERSION=0.16.0
+RUN mkdir -p /home/postgres/pgdata/pgroot/data && chown -R postgres:postgres /home/postgres/pgdata
 
 RUN set -ex \
     && export DEBIAN_FRONTEND=noninteractive \
@@ -146,6 +147,8 @@ ARG PGBIN=/usr/lib/postgresql/$PG_MAJOR/bin
 ENV LC_ALL=$LC_ALL LANG=$LANG EDITOR=/usr/bin/editor
 ENV PGDATA=$PGDATA PATH=$PATH:$PGBIN
 ENV ETCDCTL_API=3
+
+RUN mkdir -p /home/postgres/pgdata/pgroot/data && chown -R postgres:postgres /home/postgres/pgdata
 
 COPY patroni /patroni/
 COPY extras/confd/conf.d/haproxy.toml /etc/confd/conf.d/
