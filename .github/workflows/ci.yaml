@@ -11,7 +11,9 @@ jobs:
       - uses: actions/checkout@v3
       - uses: docker/setup-buildx-action@v2
       - name: Build citus image with patroni
-        run: docker build -t registry.lokative.com/patroni-citus:latest -f Dockerfile.citus .
+        run: |
+          cd kubernetes
+          docker build -t registry.lokative.com/patroni-citus:latest -f Dockerfile.citus .
       - name: Login to Registry
         run: echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login registry.lokative.com -u "${{ secrets.REGISTRY_USERNAME }}" --password-stdin
       - name: Push citus image
